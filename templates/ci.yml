@@ -1,0 +1,14 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    uses: kspace-trk/github-actions-manager/.github/workflows/reusable-ci.yml@main
+    with:
+      node-version: '20'
+      runs-on: ubuntu-latest

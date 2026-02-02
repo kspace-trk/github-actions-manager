@@ -1,0 +1,33 @@
+{
+  "name": "github-actions-manager",
+  "version": "1.0.0",
+  "description": "Centralized management for GitHub Actions workflows across multiple repositories",
+  "type": "module",
+  "main": "scripts/sync-workflows.ts",
+  "scripts": {
+    "sync": "jiti scripts/sync-workflows.ts",
+    "set-secrets": "jiti scripts/set-secrets.ts",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "github-actions",
+    "workflow",
+    "devops"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "js-yaml": "^4.1.0",
+    "tweetnacl": "^1.0.3",
+    "tweetnacl-sealedbox-js": "^1.2.0",
+    "tweetnacl-util": "^0.15.1"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.0.0",
+    "jiti": "^2.4.2",
+    "typescript": "^5.7.2"
+  }
+}

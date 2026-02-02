@@ -1,0 +1,28 @@
+# 管理対象リポジトリの設定
+#
+# 各リポジトリに適用するワークフローを指定します。
+# ワークフロー名は templates/ 配下のファイル名（.yml を除く）と対応します。
+
+repositories:
+  # 例: owner/repository-name の形式で指定
+  # - name: kspace-trk/example-repo
+  #   workflows:
+  #     - ci           # templates/ci.yml を配布
+  #     - release      # templates/release.yml を配布
+  #   branch: main     # オプション: デフォルトブランチ（デフォルト: main）
+
+  # Gemini workflows を使用する例
+  # - name: kspace-trk/example-repo-with-gemini
+  #   workflows:
+  #     - ci                        # CI/CD ワークフロー
+  #     - gemini-dispatch           # @gemini-cli コメントで呼び出し
+
+  # ここに管理対象リポジトリを追加してください
+
+  - name: kspace-trk/dozit
+    workflows:
+      - gemini-dispatch
+
+  - name: kspace-trk/k-space.me
+    workflows:
+      - gemini-dispatch
