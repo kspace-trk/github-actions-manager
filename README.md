@@ -26,6 +26,12 @@
 
 ### 1. 対象リポジトリの設定
 
+まず、テンプレートファイルをコピーして設定ファイルを作成します：
+
+```bash
+cp config/repositories.yaml.example config/repositories.yaml
+```
+
 `config/repositories.yaml` に管理対象のリポジトリを定義します：
 
 ```yaml
@@ -38,6 +44,8 @@ repositories:
     workflows:
       - ci
 ```
+
+**注意:** `config/repositories.yaml` はプライベートリポジトリ名を含む可能性があるため、`.gitignore` で除外されています。
 
 ### 2. ワークフローテンプレートの配布
 
