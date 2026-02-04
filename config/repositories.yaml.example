@@ -12,11 +12,13 @@ repositories:
   #     - ci           # templates/ci.yml を配布
   #     - release      # templates/release.yml を配布
   #   branch: main     # オプション: デフォルトブランチ（デフォルト: main）
+  #   runsOn: arc-runner-set  # オプション: 使用するrunner（未設定の場合はubuntu-latestが使用されます）
 
   # Gemini workflows を使用する例
   # - name: kspace-trk/example-repo-with-gemini
   #   workflows:
   #     - ci                        # CI/CD ワークフロー
   #     - gemini-dispatch           # @gemini-cli コメントで呼び出し
+  #   runsOn: arc-runner-set       # self-hosted runnerを使用
 
   # ここに管理対象リポジトリを追加してください

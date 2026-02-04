@@ -11,4 +11,4 @@ jobs:
     uses: kspace-trk/github-actions-manager/.github/workflows/reusable-ci.yml@main
     with:
       node-version: '20'
-      runs-on: ubuntu-latest
+      runs-on: ${{ vars.RUNS_ON || 'ubuntu-latest' }}

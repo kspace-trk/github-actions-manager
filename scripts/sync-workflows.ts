@@ -39,6 +39,7 @@ interface RepositoryConfig {
   name: string;
   workflows?: string[];
   branch?: string;
+  runsOn?: string;
 }
 
 /**
@@ -138,6 +139,45 @@ async function syncFile(
 }
 
 /**
+ * リポジトリ変数を設定
+ */
+async function setVariable(
+  owner: string,
+  repo: string,
+  variableName: string,
+  variableValue: string
+): Promise<void> {
+  const endpoint = `/repos/${owner}/${repo}/actions/variables/${variableName}`;
+
+  try {
+    // 既存の変数を取得
+    await githubRequest(endpoint);
+
+    // 変数が存在する場合は更新
+    await githubRequest(endpoint, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        name: variableName,
+        value: variableValue,
+      }),
+    });
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('404')) {
+      // 変数が存在しない場合は新規作成
+      await githubRequest(`/repos/${owner}/${repo}/actions/variables`, {
+        method: 'POST',
+        body: JSON.stringify({
+          name: variableName,
+          value: variableValue,
+        }),
+      });
+    } else {
+      throw error;
+    }
+  }
+}
+
+/**
  * ディレクトリ内のファイルを再帰的に取得
  */
 async function getFilesRecursively(dir: string, fileList: string[] = []): Promise<string[]> {
@@ -177,6 +217,17 @@ async function main(): Promise<void> {
     const branch = repoConfig.branch || 'main';
 
     console.log(`\n📦 ${repoConfig.name}`);
+
+    // RUNS_ON 変数を設定
+    if (repoConfig.runsOn) {
+      try {
+        await setVariable(owner, repo, 'RUNS_ON', repoConfig.runsOn);
+        console.log(`  ✓ RUNS_ON 変数を設定しました: ${repoConfig.runsOn}`);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error(`  ✗ RUNS_ON 変数の設定エラー:`, message);
+      }
+    }
 
     if (!repoConfig.workflows || repoConfig.workflows.length === 0) {
       console.log('  ⚠ ワークフローが定義されていません');
