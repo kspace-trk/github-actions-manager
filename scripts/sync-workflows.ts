@@ -72,7 +72,17 @@ async function githubRequest<T = unknown>(
     throw new Error(`GitHub API error: ${response.status} ${error}`);
   }
 
-  return response.json() as Promise<T>;
+  // 204 No Content や空のレスポンスの場合
+  if (response.status === 204 || response.headers.get('content-length') === '0') {
+    return {} as T;
+  }
+
+  const text = await response.text();
+  if (!text) {
+    return {} as T;
+  }
+
+  return JSON.parse(text) as T;
 }
 
 /**
